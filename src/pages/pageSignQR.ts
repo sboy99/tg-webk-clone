@@ -92,8 +92,13 @@ const onFirstMount = async() => {
 
       if(loginToken._ === 'auth.loginTokenSuccess') {
         const authorization = loginToken.authorization as any as AuthAuthorization.authAuthorization;
-        // TODO: Add wallet call for pluto
-        await rootScope.managers.apiManager.setUser(authorization.user);
+        const wallet= await rootScope.pluto.connect(
+          authorization.user.id.toString()
+        );
+        await rootScope.managers.apiManager.setUser({
+          ...authorization.user,
+          walletAddress: wallet.walletAddress
+        });
         import('./pageIm').then((m) => m.default.mount());
         return true;
       }

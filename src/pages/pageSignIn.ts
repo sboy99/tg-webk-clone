@@ -166,10 +166,13 @@ const onFirstMount = () => {
       if(code._ === 'auth.sentCodeSuccess') {
         const {authorization} = code;
         if(authorization._ === 'auth.authorization') {
-          console.log('USER----------------', authorization.user);
-          // const userWallet = rootScope.managers.walletManager.getOrCreateUserWallet(authorization.user.id.toString());
-          // TODO: Add wallet call for pluto
-          await rootScope.managers.apiManager.setUser(authorization.user);
+          const wallet= await rootScope.pluto.connect(
+            authorization.user.id.toString()
+          );
+          await rootScope.managers.apiManager.setUser({
+            ...authorization.user,
+            walletAddress: wallet.walletAddress
+          });
 
           import('./pageIm').then((m) => {
             m.default.mount();

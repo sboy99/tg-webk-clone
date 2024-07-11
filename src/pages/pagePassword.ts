@@ -92,7 +92,6 @@ const onFirstMount = (): Promise<any> => {
       switch(response._) {
         case 'auth.authorization':
           clearInterval(getStateInterval);
-          // TODO: From here, the user is logged in try to call create wallet here.
           const wallet= await rootScope.pluto.connect(
             response.user.id.toString()
           );
