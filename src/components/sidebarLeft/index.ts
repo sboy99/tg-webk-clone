@@ -73,6 +73,7 @@ import wrapEmojiStatus from '../wrappers/emojiStatus';
 import {makeMediaSize} from '../../helpers/mediaSize';
 import ReactionElement from '../chat/reaction';
 import setBlankToAnchor from '../../lib/richTextProcessor/setBlankToAnchor';
+import WalletTab from './tabs/wallet';
 
 export const LEFT_COLUMN_ACTIVE_CLASSNAME = 'is-left-column-shown';
 
@@ -169,14 +170,10 @@ export class AppSidebarLeft extends SidebarSlider {
     }, btnArchive, {
       icon: 'wallet',
       text: 'Wallet',
-      onClick: () => {
-        setTimeout(() => { // menu doesn't close if no timeout (lol)
-          appImManager.setPeer({
-            peerId: 7227480780
-          });
-        }, 0);
+      onClick:() => {
+        this.createTab(WalletTab).open();
       }
-    }, {
+    },  {
       icon: 'stories',
       text: 'MyStories.Title',
       onClick: () => {

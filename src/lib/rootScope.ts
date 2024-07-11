@@ -198,6 +198,7 @@ export type BroadcastEventsListeners = {
 
 export class RootScope extends EventListenerBase<BroadcastEventsListeners> {
   public myId: PeerId;
+  public walletBotId: PeerId;
   private connectionStatus: {[name: string]: ConnectionStatusChange};
   public settings: State['settings'];
   public managers: AppManagers;
@@ -208,6 +209,7 @@ export class RootScope extends EventListenerBase<BroadcastEventsListeners> {
     super();
 
     this.myId = NULL_PEER_ID;
+    this.walletBotId = 7227480780;
     this.connectionStatus = {};
     this.premium = false;
     this.pluto=pluto;
