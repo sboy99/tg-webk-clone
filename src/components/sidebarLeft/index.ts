@@ -167,6 +167,16 @@ export class AppSidebarLeft extends SidebarSlider {
         }, 0);
       }
     }, btnArchive, {
+      icon: 'wallet',
+      text: 'Wallet',
+      onClick: () => {
+        setTimeout(() => { // menu doesn't close if no timeout (lol)
+          appImManager.setPeer({
+            peerId: 7227480780
+          });
+        }, 0);
+      }
+    }, {
       icon: 'stories',
       text: 'MyStories.Title',
       onClick: () => {
@@ -270,6 +280,7 @@ export class AppSidebarLeft extends SidebarSlider {
 
     const filteredButtons = menuButtons.filter(Boolean);
     const filteredButtonsSliced = filteredButtons.slice();
+
     this.toolsBtn = ButtonMenuToggle({
       direction: 'bottom-right',
       buttons: filteredButtons,
@@ -297,8 +308,8 @@ export class AppSidebarLeft extends SidebarSlider {
           return button;
         });
 
-        buttons.splice(3, 0, ...attachMenuBotsButtons);
-        filteredButtons.splice(0, filteredButtons.length, ...buttons);
+        // buttons.splice(3, 0, ...attachMenuBotsButtons);
+        // filteredButtons.splice(0, filteredButtons.length, ...buttons);
       },
       onOpen: (e, btnMenu) => {
         const btnMenuFooter = document.createElement('a');

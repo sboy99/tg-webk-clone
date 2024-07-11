@@ -558,7 +558,7 @@ export namespace StorageFileType {
 /**
  * @link https://core.telegram.org/type/User
  */
-export type User = User.userEmpty | (User.user & { walletAddress?: string });
+export type User = (User.userEmpty | (User.user)) & { walletAddress?: string };
 
 export namespace User {
   export type userEmpty = {

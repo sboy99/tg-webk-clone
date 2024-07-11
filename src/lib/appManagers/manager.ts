@@ -56,6 +56,7 @@ import type AppBusinessManager from './appBusinessManager';
 import type AppTranslationsManager from './appTranslationsManager';
 import type {AppManagers} from './managers';
 import {WalletManager} from '../wallet/walletManager';
+import {Pluto} from '../pluto';
 
 export class AppManager {
   protected appPeersManager: AppPeersManager;
@@ -83,7 +84,6 @@ export class AppManager {
   protected dialogsStorage: DialogsStorage;
   protected filtersStorage: FiltersStorage;
   protected apiManager: ApiManager;
-  // protected walletManager: WalletManager;
   // protected apiManager: ApiManagerProxy;
   protected passwordManager: PasswordManager;
   protected cryptoWorker: CryptoMessagePort;
@@ -110,6 +110,7 @@ export class AppManager {
   protected appStatisticsManager: AppStatisticsManager;
   protected appBusinessManager: AppBusinessManager;
   protected appTranslationsManager: AppTranslationsManager;
+  protected pluto: Pluto;
 
   public clear: (init?: boolean) => void;
 

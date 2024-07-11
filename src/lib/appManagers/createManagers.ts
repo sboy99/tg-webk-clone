@@ -57,6 +57,7 @@ import AppStatisticsManager from './appStatisticsManager';
 import AppBusinessManager from './appBusinessManager';
 import AppTranslationsManager from './appTranslationsManager';
 import {WalletManager} from '../wallet/walletManager';
+import {Pluto} from '../pluto';
 
 export default function createManagers(appStoragesManager: AppStoragesManager, userId: UserId) {
   const managers = {
@@ -85,7 +86,6 @@ export default function createManagers(appStoragesManager: AppStoragesManager, u
     filtersStorage: new FiltersStorage,
     dialogsStorage: new DialogsStorage,
     apiManager: new ApiManager,
-    // walletManager: new WalletManager,
     cryptoWorker: cryptoMessagePort,
     passwordManager: new PasswordManager,
     apiFileManager: new ApiFileManager,
@@ -110,7 +110,8 @@ export default function createManagers(appStoragesManager: AppStoragesManager, u
     appBoostsManager: new AppBoostsManager,
     appStatisticsManager: new AppStatisticsManager,
     appBusinessManager: new AppBusinessManager,
-    appTranslationsManager: new AppTranslationsManager
+    appTranslationsManager: new AppTranslationsManager,
+    pluto: new Pluto
   };
 
   type T = typeof managers;

@@ -4,6 +4,7 @@
  * https://github.com/morethanwords/tweb/blob/master/LICENSE
  */
 
+import rootScope from '../lib/rootScope';
 import pagesManager from './pagesManager';
 
 export default class Page {
@@ -22,7 +23,7 @@ export default class Page {
 
   public async mount(...args: any[]) {
     // this.pageEl.style.display = '';
-
+    console.log('^^^ ROOT SCOPE', rootScope);
     if(this.onMount) {
       const res = this.onMount(...args);
       if(res instanceof Promise) {

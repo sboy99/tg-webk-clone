@@ -276,6 +276,7 @@ const Icons = {
   volume_off: 'ea12',
   volume_up: 'ea13',
   webview: 'ea14',
+  wallet:'ea18',
   zoomin: 'ea15',
   zoomout: 'ea16'
 };

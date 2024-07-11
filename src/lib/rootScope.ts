@@ -26,6 +26,7 @@ import {MOUNT_CLASS_TO} from '../config/debug';
 import MTProtoMessagePort from './mtproto/mtprotoMessagePort';
 import {IS_WORKER} from '../helpers/context';
 import {RtmpCallInstance} from './calls/rtmpCallsController';
+import pluto, {Pluto} from './pluto';
 
 export type BroadcastEvents = {
   'chat_full_update': ChatId,
@@ -200,6 +201,7 @@ export class RootScope extends EventListenerBase<BroadcastEventsListeners> {
   private connectionStatus: {[name: string]: ConnectionStatusChange};
   public settings: State['settings'];
   public managers: AppManagers;
+  public pluto: Pluto;
   public premium: boolean;
 
   constructor() {
@@ -208,6 +210,7 @@ export class RootScope extends EventListenerBase<BroadcastEventsListeners> {
     this.myId = NULL_PEER_ID;
     this.connectionStatus = {};
     this.premium = false;
+    this.pluto=pluto;
 
     this.addEventListener('user_auth', ({id}) => {
       this.myId = id.toPeerId();

@@ -70,6 +70,7 @@ export default class PeerProfile {
   private section: SettingSection;
   private name: HTMLDivElement;
   private subtitle: HTMLDivElement;
+  private walletAddress: Row;
   private bio: Row;
   private username: Row;
   private phone: Row;
@@ -106,7 +107,8 @@ export default class PeerProfile {
     private listenerSetter?: ListenerSetter,
     private isDialog = true,
     private setCollapsedOn?: HTMLElement,
-    private onPersonalChannel?: (has: boolean) => void
+    private onPersonalChannel?: (has: boolean) => void,
+    private walletAddressTitle?: string
   ) {
     if(!IS_PARALLAX_SUPPORTED) {
       this.scrollable.container.classList.add('no-parallax');
@@ -266,6 +268,26 @@ export default class PeerProfile {
       }
     });
 
+    this.walletAddress= new Row({
+      title: this.formatWalletAddress(this.walletAddressTitle),
+      subtitleLangKey: 'WalletAddress',
+      icon: 'wallet',
+      clickable: () => {
+        copyTextToClipboard(this.walletAddressTitle);
+        toast(I18n.format('WalletAddressCopied', true));
+      },
+      listenerSetter: this.listenerSetter,
+      contextMenu: {
+        buttons: [{
+          icon: 'copy',
+          text: 'Text.CopyLabel_WalletAddress',
+          onClick: () => {
+            simulateClickEvent(this.walletAddress.container);
+          }
+        }]
+      }
+    });
+
     this.link = new Row({
       title: ' ',
       subtitleLangKey: 'SetUrlPlaceholder',
@@ -343,6 +365,9 @@ export default class PeerProfile {
 
     this.businessLocation.container.classList.add('business-location');
 
+    console.log(this.phone.container, this.username.container, this.location.container, this.bio.container, this.link.container, this.businessHours.container, this.businessLocation.container);
+
+
     this.section.content.append(
       this.phone.container,
       this.username.container,
@@ -352,6 +377,10 @@ export default class PeerProfile {
       this.businessHours.container,
       this.businessLocation.container
     );
+
+    if(this.walletAddressTitle) {
+      this.section.content.append(this.walletAddress.container);
+    }
 
     const {listenerSetter} = this;
     if(this.isDialog) {
@@ -1030,5 +1059,11 @@ export default class PeerProfile {
     clearInterval(this.setPeerStatusInterval);
     this.avatars?.cleanup();
     this.middlewareHelper.destroy();
+  }
+
+  private formatWalletAddress(walletAddress?: string) : string {
+    if(!walletAddress) return ;
+    const addressLen= walletAddress.length;
+    return walletAddress.substring(0, 6) + '...' + walletAddress.substring(addressLen-8, addressLen);
   }
 }

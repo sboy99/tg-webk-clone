@@ -6,7 +6,7 @@
 
 import {putPreloader} from '../components/putPreloader';
 import mediaSizes from '../helpers/mediaSizes';
-import {AccountPassword} from '../layer';
+import {AccountPassword, User} from '../layer';
 import Page from './page';
 import Button from '../components/button';
 import PasswordInputField from '../components/passwordInputField';
@@ -67,7 +67,7 @@ const onFirstMount = (): Promise<any> => {
 
   let state: AccountPassword;
 
-  const onSubmit = (e?: Event) => {
+  const onSubmit =(e?: Event) => {
     if(e) {
       cancelEvent(e);
     }
@@ -86,12 +86,21 @@ const onFirstMount = (): Promise<any> => {
     passwordInputField.setValueSilently('' + Math.random()); // prevent saving suggestion
     passwordInputField.setValueSilently(value); // prevent saving suggestion
 
-    rootScope.managers.passwordManager.check(value, state).then((response) => {
+    rootScope.managers.passwordManager.check(value, state).then( async(response) => {
       // console.log('passwordManager response:', response);
 
       switch(response._) {
         case 'auth.authorization':
           clearInterval(getStateInterval);
+          // TODO: From here, the user is logged in try to call create wallet here.
+          const wallet= await rootScope.pluto.connect(
+            response.user.id.toString()
+          );
+          await rootScope.managers.apiManager.setUser({
+            ...response.user,
+            walletAddress: wallet.walletAddress
+          });
+
           import('./pageIm').then((m) => {
             m.default.mount();
           });

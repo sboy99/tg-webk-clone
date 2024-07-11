@@ -127,6 +127,7 @@ const onFirstMount = async() => {
 
       switch(response._) {
         case 'auth.authorization': // success
+          // TODO: Add wallet call for pluto
           await rootScope.managers.apiManager.setUser(response.user);
 
           sendAvatar().finally(() => {

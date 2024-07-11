@@ -70,8 +70,8 @@ export type Mirrors = {
 
 export type MirrorTaskPayload<
   T extends keyof Mirrors = keyof Mirrors
-  // K extends keyof Mirrors[T] = keyof Mirrors[T],
-  // J extends Mirrors[T][K] = Mirrors[T][K]
+// K extends keyof Mirrors[T] = keyof Mirrors[T],
+// J extends Mirrors[T][K] = Mirrors[T][K]
 > = {
   name: T,
   // key?: K,
@@ -488,7 +488,7 @@ class ApiManagerProxy extends MTProtoMessagePort {
 
     const originals = [
       Worker,
-      typeof(SharedWorker) !== 'undefined' && SharedWorker
+      typeof (SharedWorker) !== 'undefined' && SharedWorker
     ].filter(Boolean);
     originals.forEach((w) => window[w.name as any] = new Proxy(w, workerHandler));
 
@@ -781,7 +781,7 @@ class ApiManagerProxy extends MTProtoMessagePort {
   };
 }
 
-interface ApiManagerProxy extends MTProtoMessagePort<true> {}
+interface ApiManagerProxy extends MTProtoMessagePort<true> { }
 
 const apiManagerProxy = new ApiManagerProxy();
 MOUNT_CLASS_TO.apiManagerProxy = apiManagerProxy;

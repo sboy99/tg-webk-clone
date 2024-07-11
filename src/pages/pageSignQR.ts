@@ -19,6 +19,7 @@ import bytesCmp from '../helpers/bytes/bytesCmp';
 import bytesToBase64 from '../helpers/bytes/bytesToBase64';
 import textToSvgURL from '../helpers/textToSvgURL';
 
+
 const FETCH_INTERVAL = 3;
 
 const onFirstMount = async() => {
@@ -91,6 +92,7 @@ const onFirstMount = async() => {
 
       if(loginToken._ === 'auth.loginTokenSuccess') {
         const authorization = loginToken.authorization as any as AuthAuthorization.authAuthorization;
+        // TODO: Add wallet call for pluto
         await rootScope.managers.apiManager.setUser(authorization.user);
         import('./pageIm').then((m) => m.default.mount());
         return true;

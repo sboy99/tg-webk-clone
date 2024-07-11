@@ -81,6 +81,7 @@ export default class AppSettingsTab extends SliderSuperTab {
 
     this.header.append(this.buttons.edit, btnMenu);
 
+
     this.profile = new PeerProfile(
       this.managers,
       this.scrollable,
@@ -94,7 +95,8 @@ export default class AppSettingsTab extends SliderSuperTab {
         }
 
         last.firstElementChild.append(changeAvatarBtn);
-      }
+      },
+      await this.getMyWalletAddress()
     );
     this.profile.init();
     this.profile.setPeer(rootScope.myId);
@@ -319,5 +321,10 @@ export default class AppSettingsTab extends SliderSuperTab {
   public onCloseAfterTimeout() {
     this.profile.destroy();
     return super.onCloseAfterTimeout();
+  }
+
+  private async getMyWalletAddress() : Promise<string> {
+    const wallet= await this.pluto.services.wallet.getMyWallet();
+    return wallet.walletAddress;
   }
 }

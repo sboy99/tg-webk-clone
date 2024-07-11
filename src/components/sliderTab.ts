@@ -10,6 +10,7 @@ import {getMiddleware, MiddlewareHelper} from '../helpers/middleware';
 import noop from '../helpers/noop';
 import {AppManagers} from '../lib/appManagers/managers';
 import {i18n, LangPackKey} from '../lib/langPack';
+import pluto, {Pluto} from '../lib/pluto';
 import ButtonIcon from './buttonIcon';
 import Scrollable from './scrollable';
 import SidebarSlider from './slider';
@@ -40,6 +41,7 @@ export default class SliderSuperTab {
 
   public managers: AppManagers;
   public middlewareHelper: MiddlewareHelper;
+  public pluto: Pluto;
 
   public isConfirmationNeededOnClose: () => void | boolean | Promise<any>; // should return boolean instantly or `Promise` from `confirmationPopup`
 
@@ -48,6 +50,7 @@ export default class SliderSuperTab {
   }
 
   public _constructor(slider: SidebarSlider, destroyable = true): any {
+    this.pluto= pluto;
     this.slider = slider;
     this.middlewareHelper = slider ? slider.getMiddleware().create() : getMiddleware();
     this.destroyable = destroyable;
