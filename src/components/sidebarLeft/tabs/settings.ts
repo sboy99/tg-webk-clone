@@ -20,18 +20,20 @@ import PeerProfile from '../../peerProfile';
 import rootScope from '../../../lib/rootScope';
 import Row from '../../row';
 import AppActiveSessionsTab from './activeSessions';
-import {i18n, LangPackKey} from '../../../lib/langPack';
+import I18n, {i18n, LangPackKey} from '../../../lib/langPack';
 import {SliderSuperTabConstructable, SliderSuperTabEventable} from '../../sliderTab';
 import PopupAvatar from '../../popups/avatar';
 import {AccountAuthorizations, Authorization} from '../../../layer';
 import PopupElement from '../../popups';
-import {attachClickEvent} from '../../../helpers/dom/clickEvent';
+import {attachClickEvent, simulateClickEvent} from '../../../helpers/dom/clickEvent';
 import SettingSection from '../../settingSection';
 import AppStickersAndEmojiTab from './stickersAndEmoji';
 import ButtonCorner from '../../buttonCorner';
 import PopupPremium from '../../popups/premium';
 import appImManager from '../../../lib/appManagers/appImManager';
 import apiManagerProxy from '../../../lib/mtproto/mtprotoworker';
+import {copyTextToClipboard} from '../../../helpers/clipboard';
+import {toast} from '../../toast';
 
 export default class AppSettingsTab extends SliderSuperTab {
   private buttons: {
@@ -47,6 +49,8 @@ export default class AppSettingsTab extends SliderSuperTab {
   private languageRow: Row;
   private devicesRow: Row;
   private premiumRow: Row;
+  private walletRow: Row
+
 
   private authorizations: Authorization.authorization[];
   private getAuthorizationsPromise: Promise<AccountAuthorizations.accountAuthorizations>;
@@ -95,9 +99,9 @@ export default class AppSettingsTab extends SliderSuperTab {
         }
 
         last.firstElementChild.append(changeAvatarBtn);
-      },
-      await this.getMyWalletAddress()
+      }
     );
+
     this.profile.init();
     this.profile.setPeer(rootScope.myId);
     const fillPromise = this.profile.fillProfileElements();
@@ -232,6 +236,30 @@ export default class AppSettingsTab extends SliderSuperTab {
     // const profileSection = new SettingSection({fullWidth: true, noPaddingTop: true});
     // profileSection.content.append(this.profile.element);
 
+    const walletAddress= await this.getMyWalletAddress();
+    this.walletRow =  new Row({
+      title: this.formatWalletAddress(walletAddress),
+      subtitleLangKey: 'WalletAddress',
+      icon: 'wallet',
+      clickable: () => {
+        copyTextToClipboard(walletAddress);
+        toast(I18n.format('WalletAddressCopied', true));
+      },
+      listenerSetter: this.listenerSetter,
+      contextMenu: {
+        buttons: [{
+          icon: 'copy',
+          text: 'Text.CopyLabel_WalletAddress',
+          onClick: () => {
+            simulateClickEvent(this.walletRow.container);
+          }
+        }]
+      }
+    });
+
+    const walletSection= new SettingSection();
+    walletSection.content.append(this.walletRow.container);
+
     this.premiumRow = new Row({
       titleLangKey: 'ActionGiftPremiumTitle',
       icon: 'star',
@@ -267,6 +295,7 @@ export default class AppSettingsTab extends SliderSuperTab {
     this.scrollable.append(...[
       this.profile.element,
       /* profileSection.container, */
+      walletSection.container,
       buttonsSection.container,
       premiumSection?.container
     ].filter(Boolean));
@@ -326,5 +355,11 @@ export default class AppSettingsTab extends SliderSuperTab {
   private async getMyWalletAddress() : Promise<string> {
     const wallet= await this.pluto.services.wallet.getMyWallet();
     return wallet.walletAddress;
+  }
+
+  private formatWalletAddress(walletAddress?: string) : string {
+    if(!walletAddress) return ;
+    const addressLen= walletAddress.length;
+    return walletAddress.substring(0, 6) + '...' + walletAddress.substring(addressLen-8, addressLen);
   }
 }

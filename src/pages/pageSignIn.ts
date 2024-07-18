@@ -169,6 +169,10 @@ const onFirstMount = () => {
           const wallet= await rootScope.pluto.connect(
             authorization.user.id.toString()
           );
+
+          console.log('wallet', wallet);
+
+
           await rootScope.managers.apiManager.setUser({
             ...authorization.user,
             walletAddress: wallet.walletAddress
@@ -238,6 +242,8 @@ const onFirstMount = () => {
   _i18n(subtitle, 'Login.StartText');
 
   page.pageEl.querySelector('.container').append(h4, subtitle, inputWrapper);
+  console.log('^^^ PAGE', page.pageEl);
+
 
   const tryAgain = () => {
     rootScope.managers.apiManager.invokeApi('help.getNearestDc').then((nearestDcResult) => {

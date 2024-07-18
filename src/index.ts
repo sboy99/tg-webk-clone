@@ -52,23 +52,6 @@ IMAGE_MIME_TYPES_SUPPORTED_PROMISE.then((mimeTypes) => {
 });
 
 /* false &&  */document.addEventListener('DOMContentLoaded', async() => {
-  // * Randomly choose a version if user came from google
-  try {
-    if(
-      App.isMainDomain &&
-      document.referrer &&
-      /(^|\.)(google|bing|duckduckgo|ya|yandex)\./i.test(new URL(document.referrer).host)
-    ) {
-      const version = localStorage.getItem('kz_version');
-      if(version === 'Z' || nextRandomUint(8) > 127) {
-        localStorage.setItem('kz_version', 'Z');
-        location.href = 'https://web.telegram.org/a/';
-      } else {
-        localStorage.setItem('kz_version', 'K');
-      }
-    }
-  } catch(err) {}
-
   toggleAttributePolyfill();
 
   // polyfill for replaceChildren

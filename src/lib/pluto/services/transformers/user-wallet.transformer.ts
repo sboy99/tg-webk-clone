@@ -28,7 +28,7 @@ export const GetUserWalletResTransformer = z.object({
 // Get Balance //
 export const GetBalanceResTransformer = z.record(
   z.nativeEnum(AssetEnum),
-  z.string().transform((val) => parseFloat(val))
+  z.number().nullable()
 );
 
 // Save Passcode //

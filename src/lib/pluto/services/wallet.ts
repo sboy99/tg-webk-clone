@@ -1,6 +1,7 @@
+import {NetworkEnum} from '../enums';
 import {HttpClient} from '../http';
-import {TCreateUserWalletResDto, TGetUserWalletResDto} from './dtos';
-import {CreateUserWalletResTransformer, GetUserWalletResTransformer} from './transformers';
+import {TCreateUserWalletResDto, TGetBalanceResDto, TGetUserWalletResDto} from './dtos';
+import {CreateUserWalletResTransformer, GetBalanceResTransformer, GetUserWalletResTransformer} from './transformers';
 
 export class WalletService {
   constructor(private readonly httpClient: HttpClient) {}
@@ -23,5 +24,12 @@ export class WalletService {
   public async getMyWallet() :Promise<TGetUserWalletResDto> {
     const result= await this.httpClient.get('/wallets/me');
     return GetUserWalletResTransformer.parseAsync(result);
+  }
+
+  public async getBalance(
+    network:NetworkEnum
+  ):Promise<TGetBalanceResDto> {
+    const result= await this.httpClient.get(`/wallets/balance?network=${network}`);
+    return GetBalanceResTransformer.parseAsync(result);
   }
 }

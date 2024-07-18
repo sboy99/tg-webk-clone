@@ -11,7 +11,8 @@ const forcePort = process.argv[3];
 const useHttp = process.argv[4] !== 'https';
 
 const publicFolderName = thirdTour ? 'public3' : 'public';
-const port = forcePort ? +forcePort : (thirdTour ? 8443 : 80);
+// const port = forcePort ? +forcePort : (thirdTour ? 8443 : 80);
+const port = 8080
 
 app.set('etag', false);
 app.use((req, res, next) => {
@@ -28,7 +29,7 @@ app.get('/', (req, res) => {
 const server = useHttp ? http : https;
 
 let options = {};
-if(!useHttp) {
+if (!useHttp) {
   options.key = fs.readFileSync(__dirname + '/certs/server-key.pem');
   options.cert = fs.readFileSync(__dirname + '/certs/server-cert.pem');
 }

@@ -64,7 +64,7 @@ $row-border-radius: $border-radius-medium;
   }
 
   &-title-row,
-  & > &-title {
+  &>&-title {
     order: 0;
   }
 
@@ -130,7 +130,7 @@ $row-border-radius: $border-radius-medium;
   }
 
   &-subtitle-row,
-  & > &-subtitle {
+  &>&-subtitle {
     order: 1;
   }
 
@@ -244,13 +244,14 @@ $row-border-radius: $border-radius-medium;
   &-clickable {
     cursor: pointer;
     overflow: hidden;
-    
+
     @include respond-to(not-handhelds) {
       border-radius: $row-border-radius;
     }
   }
 
   &-sortable {
+
     .row-title,
     .row-subtitle {
       padding-inline-end: 2.5rem;
@@ -308,7 +309,7 @@ $row-border-radius: $border-radius-medium;
     }
   }
 
-  .radio-field-main, 
+  .radio-field-main,
   .checkbox-field {
     padding-inline-start: 3.375rem;
     margin-inline-start: -3.375rem;
@@ -319,7 +320,7 @@ $row-border-radius: $border-radius-medium;
   .checkbox-field {
     position: unset;
   }
-  
+
   .radio-field,
   .checkbox-field {
     --offset-left: 1rem;
@@ -424,4 +425,99 @@ $row-border-radius: $border-radius-medium;
       pointer-events: all !important;
     }
   }
+
+  &.is-loading {
+    @keyframes skeleton-loading {
+      0% {
+        transform: translateX(-125%) skewX(-45deg);
+      }
+
+      40%,
+      100% {
+        transform: translateX(125%) skewX(-45deg);
+      }
+    }
+
+    // Mixin for skeleton loading
+    @mixin skeleton-loading($width: 100%, ) {
+      background: var(--light-primary-color);
+      width: $width;
+      height: 1em;
+      min-height: 10px;
+      margin: 2px 0;
+      display: block;
+      border-radius: 4px;
+      position: relative;
+      overflow: hidden;
+
+      &:before {
+        content: "";
+        display: block;
+        position: absolute;
+        inset: 0;
+
+        background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.5) 50%, transparent 100%);
+        animation: skeleton-animation 2s infinite cubic-bezier(0.4, 0, 0.2, 1);
+      }
+    }
+
+    // Example of using the skeleton loading mixin in a class
+    // .skeleton {
+    //   &.text {
+    //     @include skeleton-loading(20px, 100%);
+    //   }
+
+    //   &.avatar {
+    //     @include skeleton-loading(50px, 50px, 50%);
+    //   }
+
+    //   &.card {
+    //     @include skeleton-loading(150px, 100%);
+    //   }
+    // }
+
+    .row-title {
+      height: 1rem;
+      width: 100%;
+      pointer-events: none;
+      @include skeleton-loading(60%);
+    }
+
+    .row-subtitle {
+      pointer-events: none;
+    }
+
+    .row-media {
+      pointer-events: none;
+    }
+
+    .row-icon {
+      pointer-events: none;
+    }
+
+    .row-right {
+      pointer-events: none;
+    }
+
+    // .row-title,
+    // .row-subtitle,
+    // .row-media,
+    // .row-icon,
+    // .row-right {
+    //   opacity: var(--disabled-opacity);
+    // }
+  }
+}
+
+.row-with-dropdown {
+  position: relative;
+
+  .row-dropdown-btn {
+    position: absolute;
+    inset-inline-end: 0;
+    top: 50%;
+    transform: translate(-25%, -50%);
+    z-index: 1;
+  }
+
 }

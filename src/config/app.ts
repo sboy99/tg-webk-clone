@@ -28,7 +28,7 @@ const App = {
   domains: MAIN_DOMAINS,
   baseDcId: 2 as TrueDcId,
   isMainDomain: MAIN_DOMAINS.includes(location.hostname),
-  suffix: 'K',
+  suffix: 'R',
   threads,
   cryptoWorkers: threads
 };

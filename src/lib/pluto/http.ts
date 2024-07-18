@@ -6,8 +6,11 @@ interface HttpClientConfig {
 }
 
 export class HttpClient {
+  private isRefreshingToken = false;
+  private refreshTokenPromise: Promise<{ accessToken: string, refreshToken: string } | null> | null = null;
+
   constructor(
-       private config: HttpClientConfig
+        private config: HttpClientConfig
   ) {}
 
   // -------------------------------PUBLIC--------------------------------- //
@@ -48,16 +51,15 @@ export class HttpClient {
     });
   }
 
-
   // -------------------------------PRIVATE--------------------------------- //
 
   private async request<T>(url: string, options: RequestInit, retry = true): Promise<T> {
     const response = await fetch(this.config.baseUrl + url, options);
-    const result= await response.json();
+    const result = await response.json();
 
     if(response.status === 401 && retry) {
       // Handle token refresh
-      const tokens = await this.refreshToken();
+      const tokens = await this.getRefreshToken();
       if(tokens) {
         this.config.accessToken = tokens.accessToken;
         this.config.refreshToken = tokens.refreshToken;
@@ -76,6 +78,21 @@ export class HttpClient {
       throw new Error(error.message || 'Something went wrong');
     }
     return result as T;
+  }
+
+  private async getRefreshToken(): Promise<{ accessToken: string, refreshToken: string } | null> {
+    if(this.isRefreshingToken) {
+      // Wait for the ongoing token refresh process to complete
+      return this.refreshTokenPromise!;
+    }
+
+    this.isRefreshingToken = true;
+    this.refreshTokenPromise = this.refreshToken().finally(() => {
+      this.isRefreshingToken = false;
+      this.refreshTokenPromise = null;
+    });
+
+    return this.refreshTokenPromise;
   }
 
   private async refreshToken(): Promise<{ accessToken: string, refreshToken: string } | null> {

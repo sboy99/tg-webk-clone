@@ -39,6 +39,7 @@ type ConstructorP<T> = T extends {
 } ? U : never;
 
 export default class Row<T extends SliderSuperTabEventableConstructable = any> {
+  private isLoading = false;
   public container: HTMLElement;
   public titleRow: HTMLElement;
   public titleRight: HTMLElement;
@@ -386,6 +387,16 @@ export default class Row<T extends SliderSuperTabEventableConstructable = any> {
 
   public toggleSorting(enabled?: boolean) {
     this.container.classList.toggle('cant-sort', !enabled);
+  }
+
+  public startLoading() {
+    this.isLoading = true;
+    this.container.classList.add('is-loading');
+  }
+
+  public stopLoading() {
+    this.isLoading = false;
+    this.container.classList.remove('is-loading');
   }
 }
 

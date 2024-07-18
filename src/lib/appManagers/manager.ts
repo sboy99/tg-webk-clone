@@ -110,7 +110,6 @@ export class AppManager {
   protected appStatisticsManager: AppStatisticsManager;
   protected appBusinessManager: AppBusinessManager;
   protected appTranslationsManager: AppTranslationsManager;
-  protected pluto: Pluto;
 
   public clear: (init?: boolean) => void;
 

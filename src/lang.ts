@@ -954,6 +954,7 @@ const lang = {
   'Phone': 'Phone',
   'Wallet': 'Rabble Wallet',
   'WalletAddress': 'Wallet Address',
+  'WalletBalance': 'Wallet Balance',
   'Notifications': 'Notifications',
   'AreYouSureDeleteContact': 'Are you sure you want to delete this contact?',
   'AreYouSureDeleteAndExit': 'Are you sure you want to delete and leave the group?',

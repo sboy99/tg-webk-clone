@@ -41,6 +41,9 @@ export default class LoginPage {
       this.subtitle.append(i18n(options.subtitleLangKey));
     }
 
+    console.log('^^^ LoginPage constructor', this.imageDiv);
+
+
     this.container.append(this.imageDiv, this.title, this.subtitle);
 
     if(options.withInputWrapper) {

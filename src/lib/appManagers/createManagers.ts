@@ -110,8 +110,7 @@ export default function createManagers(appStoragesManager: AppStoragesManager, u
     appBoostsManager: new AppBoostsManager,
     appStatisticsManager: new AppStatisticsManager,
     appBusinessManager: new AppBusinessManager,
-    appTranslationsManager: new AppTranslationsManager,
-    pluto: new Pluto
+    appTranslationsManager: new AppTranslationsManager
   };
 
   type T = typeof managers;
